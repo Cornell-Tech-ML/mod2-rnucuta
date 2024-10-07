@@ -65,7 +65,7 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     """
     # interestingly, even if actual stride is non contiguous
     #
-    stride = strides_from_shape(shape)
+    stride = strides_from_shape(shape.tolist() if isinstance(shape, array) else shape)
     if isinstance(stride, tuple):
         for i in range(len(stride)):
             out_index[i] = (ordinal // stride[i]) % shape[i]
