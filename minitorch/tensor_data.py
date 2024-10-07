@@ -65,7 +65,7 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     """
     # interestingly, even if actual stride is non contiguous
     #
-    stride = strides_from_shape(shape)
+    stride = strides_from_shape(shape.tolist())
     if isinstance(stride, tuple):
         for i in range(len(stride)):
             out_index[i] = (ordinal // stride[i]) % shape[i]
@@ -134,12 +134,8 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
     # print(shape1)
     # print(shape2)
     if len(shape1) < 1 or len(shape2) < 1:  # can't broadcast
-        raise (
-            IndexingError,
-            "Shapes cannot be broadcasted. One of the tensors doesn't have dim {}{}".format(
-                shape1, shape2
-            ),
-        )
+        raise IndexingError("Shapes cannot be broadcasted. One of the tensors doesn't have dim{}{}".format(shape1, shape2))
+    
     i = len(shape1) - 1
     j = len(shape2) - 1
 

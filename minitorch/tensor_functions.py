@@ -43,9 +43,9 @@ class Function:
         raw_vals = []
         need_grad = False
         for v in vals:
-            if v is None:
-                raw_vals.append(v)
-                continue
+            # if v is None:
+            #     raw_vals.append(v)
+            #     continue
             if v.requires_grad():
                 need_grad = True
             raw_vals.append(v.detach())
@@ -108,8 +108,9 @@ class All(Function):
     @staticmethod
     def forward(ctx: Context, a: Tensor, dim: Tensor) -> Tensor:
         """Return 1 if all are true"""
-        if dim is not None:
-            return a.f.mul_reduce(a, int(dim.item()))
+        d = int(dim.item())
+        if d != -1:
+            return a.f.mul_reduce(a, d)
         else:
             return a.f.mul_reduce(a.contiguous().view(int(operators.prod(a.shape))), 0)
 

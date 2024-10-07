@@ -357,7 +357,7 @@ class Tensor:
         """Returns True if all elements in the tensor are True, False otherwise.
         If dim is specified, perform the operation along that dimension.
         """
-        return All.apply(self, self._ensure_tensor(dim) if dim is not None else None)
+        return All.apply(self, self._ensure_tensor(dim) if dim is not None else self._ensure_tensor(-1))
 
     def is_close(self, b: TensorLike) -> Tensor:
         """Returns tensor indicating elementwise if a and b are close."""
